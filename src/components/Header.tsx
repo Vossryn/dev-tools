@@ -1,5 +1,7 @@
 import { Link } from "@tanstack/react-router";
 
+import { ModeToggle } from "@/components/mode-toggle";
+
 const navItems = [
   { label: "Home", to: "/" },
   { label: "Tools", to: "/tools" },
@@ -17,19 +19,22 @@ export default function Header() {
         <Link to="/" className="text-lg font-semibold">
           Dev Tools
         </Link>
-        <nav className="flex items-center gap-1 text-sm font-medium">
-          {navItems.map((item) => (
-            <Link
-              key={item.to}
-              to={item.to}
-              activeOptions={{ exact: item.to === "/" }}
-              inactiveProps={{ className: baseLinkClass }}
-              activeProps={{ className: activeLinkClass }}
-            >
-              {item.label}
-            </Link>
-          ))}
-        </nav>
+        <div className="flex items-center gap-2">
+          <nav className="flex items-center gap-1 text-sm font-medium">
+            {navItems.map((item) => (
+              <Link
+                key={item.to}
+                to={item.to}
+                activeOptions={{ exact: item.to === "/" }}
+                inactiveProps={{ className: baseLinkClass }}
+                activeProps={{ className: activeLinkClass }}
+              >
+                {item.label}
+              </Link>
+            ))}
+          </nav>
+          <ModeToggle />
+        </div>
       </div>
     </header>
   );

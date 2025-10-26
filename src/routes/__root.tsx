@@ -2,7 +2,8 @@ import { TanStackDevtools } from '@tanstack/react-devtools'
 import { HeadContent, Scripts, createRootRoute } from '@tanstack/react-router'
 import { TanStackRouterDevtoolsPanel } from '@tanstack/react-router-devtools'
 
-import Header from '../components/Header'
+import Header from '@/components/Header'
+import { THEME_STORAGE_KEY, ThemeProvider } from '@/components/theme-provider'
 
 import appCss from '../styles.css?url'
 
@@ -33,28 +34,38 @@ export const Route = createRootRoute({
 
 function RootDocument({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <head>
         <HeadContent />
+        <ThemeScript />
       </head>
       <body>
-        <Header />
-        <div className="min-h-screen bg-background">
-          {children}
-        </div>
-        <TanStackDevtools
-          config={{
-            position: 'bottom-right',
-          }}
-          plugins={[
-            {
-              name: 'Tanstack Router',
-              render: <TanStackRouterDevtoolsPanel />,
-            },
-          ]}
-        />
+        <ThemeProvider>
+          <Header />
+          <div className="min-h-screen bg-background">
+            {children}
+          </div>
+          <TanStackDevtools
+            config={{
+              position: 'bottom-right',
+            }}
+            plugins={[
+              {
+                name: 'Tanstack Router',
+                render: <TanStackRouterDevtoolsPanel />,
+              },
+            ]}
+          />
+        </ThemeProvider>
         <Scripts />
       </body>
     </html>
   )
+}
+
+function ThemeScript() {
+  const storageKey = JSON.stringify(THEME_STORAGE_KEY)
+  const script = `!function(){try{var t=${storageKey},e=window.localStorage.getItem(t);if(e!="light"&&e!="dark"&&e!="system")e="system";var n=window.matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light",o=e==="system"?n:e,r=window.document.documentElement;r.classList.remove("light","dark");r.classList.add(o);}catch(t){}}();`
+
+  return <script dangerouslySetInnerHTML={{ __html: script }} />
 }
