@@ -42,7 +42,7 @@ function RootDocument({ children }: { children: React.ReactNode }) {
       <body>
         <ThemeProvider>
           <Header />
-          <div className="min-h-screen bg-background">
+          <div className="min-h-screen bg-background text-foreground bg-linear-to-b from-(--background-gradient-from) to-(--background-gradient-to)">
             {children}
           </div>
           <TanStackDevtools
