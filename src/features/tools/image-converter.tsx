@@ -561,7 +561,7 @@ export default function ImageConverter() {
           <label className="text-sm font-medium" htmlFor="image-input">
             Select an image
           </label>
-          <Input
+          <input
             ref={fileInputRef}
             id="image-input"
             type="file"
