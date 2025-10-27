@@ -170,6 +170,8 @@ export default function ImageConverter() {
   const [targetHeight, setTargetHeight] = useState<number | "">("");
   const [isAspectLocked, setIsAspectLocked] = useState(true);
   const fileTokenRef = useRef(0);
+  const fileInputRef = useRef<HTMLInputElement | null>(null);
+  const convertTokenRef = useRef(0);
 
   useEffect(() => {
     return () => {
@@ -184,6 +186,8 @@ export default function ImageConverter() {
 
   const handleFileChange = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
     const nextFile = event.target.files?.[0];
+
+    event.target.value = "";
 
     if (!nextFile) {
       setFile(null);
@@ -216,6 +220,12 @@ export default function ImageConverter() {
       setSourceUrl((prev) => {
         if (prev) {
           URL.revokeObjectURL(prev);
+        }
+        return null;
+      });
+      setConvertedImage((prev) => {
+        if (prev?.url) {
+          URL.revokeObjectURL(prev.url);
         }
         return null;
       });
@@ -271,6 +281,10 @@ export default function ImageConverter() {
     })();
   }, []);
 
+  const openFilePicker = useCallback(() => {
+    fileInputRef.current?.click();
+  }, []);
+
   const canAdjustQuality = useMemo(
     () => LOSSY_FORMATS.has(targetFormat),
     [targetFormat]
@@ -308,6 +322,131 @@ export default function ImageConverter() {
       return { ...prev, fileName: targetFileName };
     });
   }, [targetFileName]);
+
+  // Debounce conversions so updates feel responsive without thrashing the canvas work.
+  useEffect(() => {
+    if (!file) {
+      setConvertedImage(null);
+      setIsProcessing(false);
+      setError(null);
+      return;
+    }
+
+    const currentToken = convertTokenRef.current + 1;
+    convertTokenRef.current = currentToken;
+
+    const runConversion = async () => {
+      if (convertTokenRef.current !== currentToken) {
+        return;
+      }
+
+      setIsProcessing(true);
+      setError(null);
+
+      try {
+        const canvas = document.createElement("canvas");
+        const ctx = canvas.getContext("2d");
+        if (!ctx) {
+          throw new Error("Unable to access canvas context.");
+        }
+
+        const source = await loadImageSource(file);
+
+        const baseWidth = originalDimensions?.width ?? source.width;
+        const baseHeight = originalDimensions?.height ?? source.height;
+
+        const widthCandidate =
+          typeof targetWidth === "number" && targetWidth > 0
+            ? targetWidth
+            : baseWidth;
+        const heightCandidate =
+          typeof targetHeight === "number" && targetHeight > 0
+            ? targetHeight
+            : baseHeight;
+
+        const safeWidth = Math.max(1, Math.round(widthCandidate));
+        const safeHeight = Math.max(1, Math.round(heightCandidate));
+
+        if (!originalDimensions) {
+          setOriginalDimensions({
+            width: source.width,
+            height: source.height,
+          });
+        }
+
+        canvas.width = safeWidth;
+        canvas.height = safeHeight;
+
+        source.draw(ctx, safeWidth, safeHeight);
+
+        const blob: Blob | null = await new Promise((resolve) => {
+          canvas.toBlob(
+            (result) => resolve(result),
+            targetFormat,
+            canAdjustQuality ? quality : undefined
+          );
+        });
+
+        if (!blob) {
+          throw new Error("Could not convert the image.");
+        }
+
+        if (convertTokenRef.current !== currentToken) {
+          return;
+        }
+
+        const url = URL.createObjectURL(blob);
+
+        if (convertTokenRef.current !== currentToken) {
+          URL.revokeObjectURL(url);
+          return;
+        }
+
+        setConvertedImage((prev) => {
+          if (prev?.url) {
+            URL.revokeObjectURL(prev.url);
+          }
+          return {
+            blob,
+            url,
+            fileName: targetFileName,
+            sizeReadable: formatBytes(blob.size),
+          };
+        });
+      } catch (conversionError) {
+        if (convertTokenRef.current !== currentToken) {
+          return;
+        }
+        console.error(conversionError);
+        setError(
+          conversionError instanceof Error
+            ? conversionError.message
+            : "Something went wrong during conversion."
+        );
+      } finally {
+        if (convertTokenRef.current === currentToken) {
+          setIsProcessing(false);
+        }
+      }
+    };
+
+    const timeoutId = window.setTimeout(() => {
+      void runConversion();
+    }, 200);
+
+    return () => {
+      window.clearTimeout(timeoutId);
+    };
+  }, [
+    canAdjustQuality,
+    file,
+    originalDimensions,
+    quality,
+    targetFileName,
+    targetFormat,
+    targetHeight,
+    targetWidth,
+  ]);
 
   const exportWidth = useMemo(() => {
     if (typeof targetWidth === "number" && targetWidth > 0) {
@@ -406,101 +545,14 @@ export default function ImageConverter() {
     [aspectRatio, originalDimensions, targetHeight, targetWidth]
   );
 
-  const convert = useCallback(async () => {
-    if (!file) {
-      setError("Select an image before converting.");
-      return;
-    }
-
-    setIsProcessing(true);
-    setError(null);
-
-    try {
-      const canvas = document.createElement("canvas");
-
-      const ctx = canvas.getContext("2d");
-      if (!ctx) {
-        throw new Error("Unable to access canvas context.");
-      }
-
-      const source = await loadImageSource(file);
-
-      const baseWidth = originalDimensions?.width ?? source.width;
-      const baseHeight = originalDimensions?.height ?? source.height;
-
-      const widthCandidate =
-        typeof targetWidth === "number" && targetWidth > 0
-          ? targetWidth
-          : baseWidth;
-      const heightCandidate =
-        typeof targetHeight === "number" && targetHeight > 0
-          ? targetHeight
-          : baseHeight;
-
-      const safeWidth = Math.max(1, Math.round(widthCandidate));
-      const safeHeight = Math.max(1, Math.round(heightCandidate));
-
-      if (!originalDimensions) {
-        setOriginalDimensions({ width: source.width, height: source.height });
-      }
-
-      canvas.width = safeWidth;
-      canvas.height = safeHeight;
-
-      source.draw(ctx, safeWidth, safeHeight);
-
-      const blob: Blob | null = await new Promise((resolve) => {
-        canvas.toBlob(
-          (result) => resolve(result),
-          targetFormat,
-          canAdjustQuality ? quality : undefined
-        );
-      });
-
-      if (!blob) {
-        throw new Error("Could not convert the image.");
-      }
-
-      const url = URL.createObjectURL(blob);
-      setConvertedImage((prev) => {
-        if (prev?.url) {
-          URL.revokeObjectURL(prev.url);
-        }
-        return {
-          blob,
-          url,
-          fileName: targetFileName,
-          sizeReadable: formatBytes(blob.size),
-        };
-      });
-    } catch (conversionError) {
-      console.error(conversionError);
-      setError(
-        conversionError instanceof Error
-          ? conversionError.message
-          : "Something went wrong during conversion."
-      );
-    } finally {
-      setIsProcessing(false);
-    }
-  }, [
-    canAdjustQuality,
-    file,
-    originalDimensions,
-    quality,
-    targetFileName,
-    targetFormat,
-    targetHeight,
-    targetWidth,
-  ]);
-
   return (
     <section className="mx-auto flex w-full max-w-4xl flex-col gap-8 px-4 py-10">
       <header className="flex flex-col gap-2">
         <h1 className="text-3xl font-semibold">Image Converter</h1>
         <p className="text-muted-foreground max-w-2xl text-sm">
-          Convert images to PNG, JPEG, or WebP directly in your browser. Files never
-          leave your device, and converted results are generated locally using canvas APIs.
+          Convert images to PNG, JPEG, or WebP directly in your browser. Files
+          never leave your device, and converted results are generated locally
+          using canvas APIs.
         </p>
       </header>
 
@@ -510,11 +562,16 @@ export default function ImageConverter() {
             Select an image
           </label>
           <Input
+            ref={fileInputRef}
             id="image-input"
             type="file"
             accept="image/*"
             onChange={handleFileChange}
+            className="sr-only"
           />
+          <Button type="button" onClick={openFilePicker} className="w-fit">
+            {file ? "Change image" : "Choose image"}
+          </Button>
           {file ? (
             <p className="text-xs text-muted-foreground">
               Loaded {file.name} · {formatBytes(file.size)}
@@ -587,30 +644,9 @@ export default function ImageConverter() {
           </div>
 
           <div className="grid gap-3 md:col-span-2">
-            <div className="flex flex-wrap items-center justify-between gap-2">
-              <span className="text-sm font-medium">Dimensions</span>
-              <Toggle
-                pressed={isAspectLocked}
-                onPressedChange={handleAspectToggle}
-                variant="outline"
-                size="sm"
-                disabled={!originalDimensions}
-                aria-label={
-                  isAspectLocked ? "Unlock aspect ratio" : "Lock aspect ratio"
-                }
-              >
-                {isAspectLocked ? (
-                  <Lock className="size-3.5" />
-                ) : (
-                  <Unlock className="size-3.5" />
-                )}
-                <span className="text-xs font-medium">
-                  {isAspectLocked ? "Locked" : "Unlocked"}
-                </span>
-              </Toggle>
-            </div>
+            <span className="text-sm font-medium">Dimensions</span>
 
-            <div className="grid gap-3 md:grid-cols-2">
+            <div className="grid gap-3 md:grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)] md:items-end">
               <div className="grid gap-1.5">
                 <label
                   className="text-xs font-semibold uppercase tracking-wide"
@@ -625,10 +661,33 @@ export default function ImageConverter() {
                   inputMode="numeric"
                   value={targetWidth === "" ? "" : targetWidth}
                   onChange={handleWidthInput}
-                  placeholder={originalDimensions ? String(originalDimensions.width) : ""}
+                  placeholder={
+                    originalDimensions ? String(originalDimensions.width) : ""
+                  }
                   disabled={!originalDimensions}
                 />
               </div>
+              <Toggle
+                className="gap-1"
+                pressed={isAspectLocked}
+                onPressedChange={handleAspectToggle}
+                variant="outline"
+                disabled={!originalDimensions}
+                aria-label={
+                  isAspectLocked ? "Unlock aspect ratio" : "Lock aspect ratio"
+                }
+              >
+                {isAspectLocked ? (
+                  <Lock className="size-3.5" />
+                ) : (
+                  <Unlock className="size-3.5" />
+                )}
+                <span className="text-xs font-medium">
+                  {isAspectLocked
+                    ? "Aspect Ratio Locked"
+                    : "Aspect Ratio Unlocked"}
+                </span>
+              </Toggle>
               <div className="grid gap-1.5">
                 <label
                   className="text-xs font-semibold uppercase tracking-wide"
@@ -643,7 +702,9 @@ export default function ImageConverter() {
                   inputMode="numeric"
                   value={targetHeight === "" ? "" : targetHeight}
                   onChange={handleHeightInput}
-                  placeholder={originalDimensions ? String(originalDimensions.height) : ""}
+                  placeholder={
+                    originalDimensions ? String(originalDimensions.height) : ""
+                  }
                   disabled={!originalDimensions}
                 />
               </div>
@@ -674,10 +735,18 @@ export default function ImageConverter() {
           </div>
         </div>
 
-        <div className="flex flex-wrap items-center gap-3">
-          <Button onClick={convert} disabled={isProcessing}>
-            {isProcessing ? "Converting…" : "Convert image"}
-          </Button>
+        <div className="flex flex-col flex-wrap items-center gap-3">
+          {file ? (
+            <p className="text-sm text-muted-foreground">
+              {isProcessing
+                ? "Processing latest changes…"
+                : "Preview updates automatically as you adjust settings."}
+            </p>
+          ) : (
+            <p className="text-sm text-muted-foreground">
+              Select an image to begin converting.
+            </p>
+          )}
           {convertedImage ? (
             <Button asChild variant="outline">
               <a href={convertedImage.url} download={convertedImage.fileName}>
@@ -696,7 +765,9 @@ export default function ImageConverter() {
 
       <div className="grid gap-6 md:grid-cols-2">
         <figure className="grid gap-3">
-          <figcaption className="text-sm font-medium">Original preview</figcaption>
+          <figcaption className="text-sm font-medium">
+            Original preview
+          </figcaption>
           {sourceUrl ? (
             <img
               src={sourceUrl}
@@ -711,7 +782,9 @@ export default function ImageConverter() {
         </figure>
 
         <figure className="grid gap-3">
-          <figcaption className="text-sm font-medium">Converted preview</figcaption>
+          <figcaption className="text-sm font-medium">
+            Converted preview
+          </figcaption>
           {convertedImage ? (
             <img
               src={convertedImage.url}
