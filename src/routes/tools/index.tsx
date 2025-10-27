@@ -10,6 +10,11 @@ const tools = [
     description: "Convert images between PNG, JPEG, and WebP directly in your browser.",
     to: "/tools/image-converter",
   },
+  {
+    name: "Pixel Converter",
+    description: "Translate measurements between px, rem, and em with a custom root size.",
+    to: "/tools/pixel-converter",
+  },
 ];
 
 function ToolsIndex() {
@@ -25,7 +30,11 @@ function ToolsIndex() {
       <ul className="grid gap-4">
         {tools.map((tool) => (
           <li key={tool.to} className="rounded-lg border bg-card p-6 shadow-sm transition hover:shadow-md">
-            <Link to={tool.to} className="flex flex-col gap-2">
+            {/* Casting avoids transient router typing issues until the route tree updates. */}
+            <Link
+              to={tool.to as never}
+              className="flex flex-col gap-2"
+            >
               <span className="text-xl font-semibold text-primary">{tool.name}</span>
               <span className="text-sm text-muted-foreground">{tool.description}</span>
               <span className="text-sm font-medium text-primary/80">Open tool →</span>

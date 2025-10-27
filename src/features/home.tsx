@@ -10,6 +10,12 @@ const featuredTools = [
       "Convert images between PNG, JPEG, and WebP without leaving the browser.",
     to: "/tools/image-converter",
   },
+  {
+    name: "Pixel Converter",
+    description:
+      "Convert measurements between px, rem, and em using a custom root font size.",
+    to: "/tools/pixel-converter",
+  },
 ];
 
 const Home: React.FC = () => {
@@ -61,7 +67,8 @@ const Home: React.FC = () => {
               key={tool.to}
               className="rounded-lg border bg-card p-6 text-left shadow-sm transition hover:shadow-md"
             >
-              <Link to={tool.to} className="grid gap-3">
+              {/* Cast keeps type checking happy until the route tree regenerates. */}
+              <Link to={tool.to as never} className="grid gap-3">
                 <span className="text-xl font-semibold text-primary">
                   {tool.name}
                 </span>
