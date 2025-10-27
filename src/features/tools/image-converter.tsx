@@ -748,7 +748,7 @@ export default function ImageConverter() {
             </p>
           )}
           {convertedImage ? (
-            <Button asChild variant="outline">
+            <Button asChild variant="default" disabled={isProcessing}>
               <a href={convertedImage.url} download={convertedImage.fileName}>
                 Download {convertedImage.fileName} ({convertedImage.sizeReadable})
               </a>
