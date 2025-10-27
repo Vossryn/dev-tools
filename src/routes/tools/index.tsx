@@ -15,6 +15,11 @@ const tools = [
     description: "Translate measurements between px, rem, and em with a custom root size.",
     to: "/tools/pixel-converter",
   },
+  {
+    name: "CSS Color Converter",
+    description: "View synchronized color values across hex, RGB, HSL, Lab, OKLab, and more.",
+    to: "/tools/color-converter",
+  },
 ];
 
 function ToolsIndex() {
@@ -30,9 +35,8 @@ function ToolsIndex() {
       <ul className="grid gap-4">
         {tools.map((tool) => (
           <li key={tool.to} className="rounded-lg border bg-card p-6 shadow-sm transition hover:shadow-md">
-            {/* Casting avoids transient router typing issues until the route tree updates. */}
             <Link
-              to={tool.to as never}
+              to={tool.to}
               className="flex flex-col gap-2"
             >
               <span className="text-xl font-semibold text-primary">{tool.name}</span>

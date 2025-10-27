@@ -16,6 +16,12 @@ const featuredTools = [
       "Convert measurements between px, rem, and em using a custom root font size.",
     to: "/tools/pixel-converter",
   },
+  {
+    name: "CSS Color Converter",
+    description:
+      "Convert colors between hex, RGB, HSL, Lab, OKLab, and other CSS formats instantly.",
+    to: "/tools/color-converter",
+  },
 ];
 
 const Home: React.FC = () => {
@@ -67,8 +73,7 @@ const Home: React.FC = () => {
               key={tool.to}
               className="rounded-lg border bg-card p-6 text-left shadow-sm transition hover:shadow-md"
             >
-              {/* Cast keeps type checking happy until the route tree regenerates. */}
-              <Link to={tool.to as never} className="grid gap-3">
+              <Link to={tool.to} className="grid gap-3">
                 <span className="text-xl font-semibold text-primary">
                   {tool.name}
                 </span>

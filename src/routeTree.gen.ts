@@ -13,6 +13,7 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as ToolsIndexRouteImport } from './routes/tools/index'
 import { Route as ToolsPixelConverterRouteImport } from './routes/tools/pixel-converter'
 import { Route as ToolsImageConverterRouteImport } from './routes/tools/image-converter'
+import { Route as ToolsColorConverterRouteImport } from './routes/tools/color-converter'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -34,15 +35,22 @@ const ToolsImageConverterRoute = ToolsImageConverterRouteImport.update({
   path: '/tools/image-converter',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ToolsColorConverterRoute = ToolsColorConverterRouteImport.update({
+  id: '/tools/color-converter',
+  path: '/tools/color-converter',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/tools/color-converter': typeof ToolsColorConverterRoute
   '/tools/image-converter': typeof ToolsImageConverterRoute
   '/tools/pixel-converter': typeof ToolsPixelConverterRoute
   '/tools': typeof ToolsIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/tools/color-converter': typeof ToolsColorConverterRoute
   '/tools/image-converter': typeof ToolsImageConverterRoute
   '/tools/pixel-converter': typeof ToolsPixelConverterRoute
   '/tools': typeof ToolsIndexRoute
@@ -50,6 +58,7 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/tools/color-converter': typeof ToolsColorConverterRoute
   '/tools/image-converter': typeof ToolsImageConverterRoute
   '/tools/pixel-converter': typeof ToolsPixelConverterRoute
   '/tools/': typeof ToolsIndexRoute
@@ -58,14 +67,21 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/tools/color-converter'
     | '/tools/image-converter'
     | '/tools/pixel-converter'
     | '/tools'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/tools/image-converter' | '/tools/pixel-converter' | '/tools'
+  to:
+    | '/'
+    | '/tools/color-converter'
+    | '/tools/image-converter'
+    | '/tools/pixel-converter'
+    | '/tools'
   id:
     | '__root__'
     | '/'
+    | '/tools/color-converter'
     | '/tools/image-converter'
     | '/tools/pixel-converter'
     | '/tools/'
@@ -73,6 +89,7 @@ export interface FileRouteTypes {
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  ToolsColorConverterRoute: typeof ToolsColorConverterRoute
   ToolsImageConverterRoute: typeof ToolsImageConverterRoute
   ToolsPixelConverterRoute: typeof ToolsPixelConverterRoute
   ToolsIndexRoute: typeof ToolsIndexRoute
@@ -108,11 +125,19 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ToolsImageConverterRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/tools/color-converter': {
+      id: '/tools/color-converter'
+      path: '/tools/color-converter'
+      fullPath: '/tools/color-converter'
+      preLoaderRoute: typeof ToolsColorConverterRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  ToolsColorConverterRoute: ToolsColorConverterRoute,
   ToolsImageConverterRoute: ToolsImageConverterRoute,
   ToolsPixelConverterRoute: ToolsPixelConverterRoute,
   ToolsIndexRoute: ToolsIndexRoute,
