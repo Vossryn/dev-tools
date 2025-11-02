@@ -19,7 +19,7 @@
     "slug": "pixel-converter",
     "name": "Pixel Converter",
     "description": "Translate measurements between px, rem, and em with a custom root size.",
-    "tags": ["pixels", "responsive", "rem", "converter"],
+    "tags": ["pixels", "css", "responsive", "rem", "converter"],
     "href": "/tools/pixel-converter",
     "featured": true
   },
@@ -27,7 +27,7 @@
     "slug": "color-converter",
     "name": "CSS Color Converter",
     "description": "View synchronized color values across hex, RGB, HSL, Lab, OKLab, and more.",
-    "tags": ["color", "css", "converter"],
+    "tags": ["color", "css", "hex", "rgb", "hsl", "lab", "oklab", "converter"],
     "href": "/tools/color-converter",
     "featured": true
   }

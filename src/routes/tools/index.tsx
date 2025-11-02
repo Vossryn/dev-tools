@@ -1,30 +1,6 @@
-import tools from "@/lib/tools.json";
-import { createFileRoute, Link } from "@tanstack/react-router";
+import Tools from "@/features/tools/image";
+import { createFileRoute } from "@tanstack/react-router";
 
 export const Route = createFileRoute("/tools/")({
-  component: ToolsIndex,
+  component: () => <Tools />,
 });
-
-function ToolsIndex() {
-  return (
-    <section className="mx-auto flex w-full max-w-4xl flex-col gap-8 px-4 py-10">
-      <header className="flex flex-col gap-2">
-        <h1 className="text-3xl font-semibold">Tools</h1>
-        <p className="text-muted-foreground max-w-2xl text-sm">
-          Browse the growing collection of utilities. Everything runs client-side so your data stays on your device.
-        </p>
-      </header>
-      <ul className="grid gap-4">
-        {tools.map((tool) => (
-          <li key={tool.slug} className="rounded-lg border bg-card p-6 shadow-sm transition hover:shadow-md">
-            <Link to={tool.href} className="flex flex-col gap-2">
-              <span className="text-xl font-semibold text-primary">{tool.name}</span>
-              <span className="text-sm text-muted-foreground">{tool.description}</span>
-              <span className="text-sm font-medium text-primary/80">Open tool →</span>
-            </Link>
-          </li>
-        ))}
-      </ul>
-    </section>
-  );
-}
