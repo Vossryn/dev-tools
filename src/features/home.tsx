@@ -1,34 +1,10 @@
 import React from "react";
 
 import { Button } from "@/components/ui/button";
+import tools from "@/lib/tools.json";
 import { Link } from "@tanstack/react-router";
 
-const featuredTools = [
-  {
-    name: "Image Converter",
-    description:
-      "Convert images between PNG, JPEG, and WebP without leaving the browser.",
-    to: "/tools/image-converter",
-  },
-  {
-    name: "Pixel Converter",
-    description:
-      "Convert measurements between px, rem, and em using a custom root font size.",
-    to: "/tools/pixel-converter",
-  },
-  {
-    name: "CSS Color Converter",
-    description:
-      "Convert colors between hex, RGB, HSL, Lab, OKLab, and other CSS formats instantly.",
-    to: "/tools/color-converter",
-  },
-  {
-    name: "JSON Parser",
-    description:
-      "Format, validate, and explore JSON data with syntax highlighting and error detection.",
-    to: "/tools/json-parser",
-  },
-];
+const featuredTools = tools.filter((tool) => tool.featured);
 
 const Home: React.FC = () => {
   return (
@@ -76,10 +52,10 @@ const Home: React.FC = () => {
         <ul className="grid gap-4 md:grid-cols-2">
           {featuredTools.map((tool) => (
             <li
-              key={tool.to}
+              key={tool.slug}
               className="rounded-lg border bg-card p-6 text-left shadow-sm transition hover:shadow-md"
             >
-              <Link to={tool.to} className="grid gap-3">
+              <Link to={tool.href} className="grid gap-3">
                 <span className="text-xl font-semibold text-primary">
                   {tool.name}
                 </span>

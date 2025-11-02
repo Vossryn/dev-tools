@@ -1,0 +1,34 @@
+[
+  {
+    "slug": "json-parser",
+    "name": "JSON Parser & Linter",
+    "description": "Validate, format, and inspect JSON by pasting or uploading a file.",
+    "tags": ["json", "parser", "lint", "format"],
+    "href": "/tools/json-parser",
+    "featured": true
+  },
+  {
+    "slug": "image-converter",
+    "name": "Image Converter",
+    "description": "Convert images between PNG, JPEG, and WebP directly in your browser.",
+    "tags": ["image", "converter", "resize"],
+    "href": "/tools/image-converter",
+    "featured": true
+  },
+  {
+    "slug": "pixel-converter",
+    "name": "Pixel Converter",
+    "description": "Translate measurements between px, rem, and em with a custom root size.",
+    "tags": ["pixels", "responsive", "rem", "converter"],
+    "href": "/tools/pixel-converter",
+    "featured": true
+  },
+  {
+    "slug": "color-converter",
+    "name": "CSS Color Converter",
+    "description": "View synchronized color values across hex, RGB, HSL, Lab, OKLab, and more.",
+    "tags": ["color", "css", "converter"],
+    "href": "/tools/color-converter",
+    "featured": true
+  }
+]
