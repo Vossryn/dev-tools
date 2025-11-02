@@ -12,6 +12,7 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as ToolsIndexRouteImport } from './routes/tools/index'
 import { Route as ToolsPixelConverterRouteImport } from './routes/tools/pixel-converter'
+import { Route as ToolsJsonParserRouteImport } from './routes/tools/json-parser'
 import { Route as ToolsImageConverterRouteImport } from './routes/tools/image-converter'
 import { Route as ToolsColorConverterRouteImport } from './routes/tools/color-converter'
 
@@ -30,6 +31,11 @@ const ToolsPixelConverterRoute = ToolsPixelConverterRouteImport.update({
   path: '/tools/pixel-converter',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ToolsJsonParserRoute = ToolsJsonParserRouteImport.update({
+  id: '/tools/json-parser',
+  path: '/tools/json-parser',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ToolsImageConverterRoute = ToolsImageConverterRouteImport.update({
   id: '/tools/image-converter',
   path: '/tools/image-converter',
@@ -45,6 +51,7 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/tools/color-converter': typeof ToolsColorConverterRoute
   '/tools/image-converter': typeof ToolsImageConverterRoute
+  '/tools/json-parser': typeof ToolsJsonParserRoute
   '/tools/pixel-converter': typeof ToolsPixelConverterRoute
   '/tools': typeof ToolsIndexRoute
 }
@@ -52,6 +59,7 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/tools/color-converter': typeof ToolsColorConverterRoute
   '/tools/image-converter': typeof ToolsImageConverterRoute
+  '/tools/json-parser': typeof ToolsJsonParserRoute
   '/tools/pixel-converter': typeof ToolsPixelConverterRoute
   '/tools': typeof ToolsIndexRoute
 }
@@ -60,6 +68,7 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/tools/color-converter': typeof ToolsColorConverterRoute
   '/tools/image-converter': typeof ToolsImageConverterRoute
+  '/tools/json-parser': typeof ToolsJsonParserRoute
   '/tools/pixel-converter': typeof ToolsPixelConverterRoute
   '/tools/': typeof ToolsIndexRoute
 }
@@ -69,6 +78,7 @@ export interface FileRouteTypes {
     | '/'
     | '/tools/color-converter'
     | '/tools/image-converter'
+    | '/tools/json-parser'
     | '/tools/pixel-converter'
     | '/tools'
   fileRoutesByTo: FileRoutesByTo
@@ -76,6 +86,7 @@ export interface FileRouteTypes {
     | '/'
     | '/tools/color-converter'
     | '/tools/image-converter'
+    | '/tools/json-parser'
     | '/tools/pixel-converter'
     | '/tools'
   id:
@@ -83,6 +94,7 @@ export interface FileRouteTypes {
     | '/'
     | '/tools/color-converter'
     | '/tools/image-converter'
+    | '/tools/json-parser'
     | '/tools/pixel-converter'
     | '/tools/'
   fileRoutesById: FileRoutesById
@@ -91,6 +103,7 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   ToolsColorConverterRoute: typeof ToolsColorConverterRoute
   ToolsImageConverterRoute: typeof ToolsImageConverterRoute
+  ToolsJsonParserRoute: typeof ToolsJsonParserRoute
   ToolsPixelConverterRoute: typeof ToolsPixelConverterRoute
   ToolsIndexRoute: typeof ToolsIndexRoute
 }
@@ -118,6 +131,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ToolsPixelConverterRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/tools/json-parser': {
+      id: '/tools/json-parser'
+      path: '/tools/json-parser'
+      fullPath: '/tools/json-parser'
+      preLoaderRoute: typeof ToolsJsonParserRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/tools/image-converter': {
       id: '/tools/image-converter'
       path: '/tools/image-converter'
@@ -139,6 +159,7 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   ToolsColorConverterRoute: ToolsColorConverterRoute,
   ToolsImageConverterRoute: ToolsImageConverterRoute,
+  ToolsJsonParserRoute: ToolsJsonParserRoute,
   ToolsPixelConverterRoute: ToolsPixelConverterRoute,
   ToolsIndexRoute: ToolsIndexRoute,
 }

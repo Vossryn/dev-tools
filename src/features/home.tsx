@@ -22,6 +22,12 @@ const featuredTools = [
       "Convert colors between hex, RGB, HSL, Lab, OKLab, and other CSS formats instantly.",
     to: "/tools/color-converter",
   },
+  {
+    name: "JSON Parser",
+    description:
+      "Format, validate, and explore JSON data with syntax highlighting and error detection.",
+    to: "/tools/json-parser",
+  },
 ];
 
 const Home: React.FC = () => {

@@ -6,6 +6,11 @@ export const Route = createFileRoute("/tools/")({
 
 const tools = [
   {
+    name: "JSON Parser & Linter",
+    description: "Validate, format, and inspect JSON by pasting or uploading a file.",
+    to: "/tools/json-parser",
+  },
+  {
     name: "Image Converter",
     description: "Convert images between PNG, JPEG, and WebP directly in your browser.",
     to: "/tools/image-converter",
