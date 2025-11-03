@@ -8,6 +8,14 @@
     "featured": true
   },
   {
+    "slug": "yaml-linter",
+    "name": "YAML Linter & Formatter",
+    "description": "Validate, prettify, and inspect YAML documents—including multi-document files—in the browser.",
+    "tags": ["yaml", "parser", "lint", "format"],
+    "href": "/tools/yaml-linter",
+    "featured": false
+  },
+  {
     "slug": "css-parser",
     "name": "CSS Parser, Linter & Formatter",
     "description": "Validate, format, and minify modern CSS with native nesting support.",

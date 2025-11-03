@@ -11,6 +11,7 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as ToolsIndexRouteImport } from './routes/tools/index'
+import { Route as ToolsYamlLinterRouteImport } from './routes/tools/yaml-linter'
 import { Route as ToolsPixelConverterRouteImport } from './routes/tools/pixel-converter'
 import { Route as ToolsJsonParserRouteImport } from './routes/tools/json-parser'
 import { Route as ToolsImageConverterRouteImport } from './routes/tools/image-converter'
@@ -25,6 +26,11 @@ const IndexRoute = IndexRouteImport.update({
 const ToolsIndexRoute = ToolsIndexRouteImport.update({
   id: '/tools/',
   path: '/tools/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ToolsYamlLinterRoute = ToolsYamlLinterRouteImport.update({
+  id: '/tools/yaml-linter',
+  path: '/tools/yaml-linter',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ToolsPixelConverterRoute = ToolsPixelConverterRouteImport.update({
@@ -60,6 +66,7 @@ export interface FileRoutesByFullPath {
   '/tools/image-converter': typeof ToolsImageConverterRoute
   '/tools/json-parser': typeof ToolsJsonParserRoute
   '/tools/pixel-converter': typeof ToolsPixelConverterRoute
+  '/tools/yaml-linter': typeof ToolsYamlLinterRoute
   '/tools': typeof ToolsIndexRoute
 }
 export interface FileRoutesByTo {
@@ -69,6 +76,7 @@ export interface FileRoutesByTo {
   '/tools/image-converter': typeof ToolsImageConverterRoute
   '/tools/json-parser': typeof ToolsJsonParserRoute
   '/tools/pixel-converter': typeof ToolsPixelConverterRoute
+  '/tools/yaml-linter': typeof ToolsYamlLinterRoute
   '/tools': typeof ToolsIndexRoute
 }
 export interface FileRoutesById {
@@ -79,6 +87,7 @@ export interface FileRoutesById {
   '/tools/image-converter': typeof ToolsImageConverterRoute
   '/tools/json-parser': typeof ToolsJsonParserRoute
   '/tools/pixel-converter': typeof ToolsPixelConverterRoute
+  '/tools/yaml-linter': typeof ToolsYamlLinterRoute
   '/tools/': typeof ToolsIndexRoute
 }
 export interface FileRouteTypes {
@@ -90,6 +99,7 @@ export interface FileRouteTypes {
     | '/tools/image-converter'
     | '/tools/json-parser'
     | '/tools/pixel-converter'
+    | '/tools/yaml-linter'
     | '/tools'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -99,6 +109,7 @@ export interface FileRouteTypes {
     | '/tools/image-converter'
     | '/tools/json-parser'
     | '/tools/pixel-converter'
+    | '/tools/yaml-linter'
     | '/tools'
   id:
     | '__root__'
@@ -108,6 +119,7 @@ export interface FileRouteTypes {
     | '/tools/image-converter'
     | '/tools/json-parser'
     | '/tools/pixel-converter'
+    | '/tools/yaml-linter'
     | '/tools/'
   fileRoutesById: FileRoutesById
 }
@@ -118,6 +130,7 @@ export interface RootRouteChildren {
   ToolsImageConverterRoute: typeof ToolsImageConverterRoute
   ToolsJsonParserRoute: typeof ToolsJsonParserRoute
   ToolsPixelConverterRoute: typeof ToolsPixelConverterRoute
+  ToolsYamlLinterRoute: typeof ToolsYamlLinterRoute
   ToolsIndexRoute: typeof ToolsIndexRoute
 }
 
@@ -135,6 +148,13 @@ declare module '@tanstack/react-router' {
       path: '/tools'
       fullPath: '/tools'
       preLoaderRoute: typeof ToolsIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/tools/yaml-linter': {
+      id: '/tools/yaml-linter'
+      path: '/tools/yaml-linter'
+      fullPath: '/tools/yaml-linter'
+      preLoaderRoute: typeof ToolsYamlLinterRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/tools/pixel-converter': {
@@ -182,6 +202,7 @@ const rootRouteChildren: RootRouteChildren = {
   ToolsImageConverterRoute: ToolsImageConverterRoute,
   ToolsJsonParserRoute: ToolsJsonParserRoute,
   ToolsPixelConverterRoute: ToolsPixelConverterRoute,
+  ToolsYamlLinterRoute: ToolsYamlLinterRoute,
   ToolsIndexRoute: ToolsIndexRoute,
 }
 export const routeTree = rootRouteImport
