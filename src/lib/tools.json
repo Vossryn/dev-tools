@@ -46,5 +46,13 @@
     "tags": ["color", "css", "hex", "rgb", "hsl", "lab", "oklab", "converter"],
     "href": "/tools/color-converter",
     "featured": true
+  },
+  {
+    "slug": "svg-optimizer",
+    "name": "SVG Optimizer",
+    "description": "Upload and clean SVGs with SVGO presets, preview, and export.",
+    "tags": ["svg", "optimizer", "svgo", "vector", "minify"],
+    "href": "/tools/svg-optimizer",
+    "featured": true
   }
 ]

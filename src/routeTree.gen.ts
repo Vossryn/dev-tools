@@ -12,6 +12,7 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as ToolsIndexRouteImport } from './routes/tools/index'
 import { Route as ToolsYamlLinterRouteImport } from './routes/tools/yaml-linter'
+import { Route as ToolsSvgOptimizerRouteImport } from './routes/tools/svg-optimizer'
 import { Route as ToolsPixelConverterRouteImport } from './routes/tools/pixel-converter'
 import { Route as ToolsJsonParserRouteImport } from './routes/tools/json-parser'
 import { Route as ToolsImageConverterRouteImport } from './routes/tools/image-converter'
@@ -31,6 +32,11 @@ const ToolsIndexRoute = ToolsIndexRouteImport.update({
 const ToolsYamlLinterRoute = ToolsYamlLinterRouteImport.update({
   id: '/tools/yaml-linter',
   path: '/tools/yaml-linter',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ToolsSvgOptimizerRoute = ToolsSvgOptimizerRouteImport.update({
+  id: '/tools/svg-optimizer',
+  path: '/tools/svg-optimizer',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ToolsPixelConverterRoute = ToolsPixelConverterRouteImport.update({
@@ -66,6 +72,7 @@ export interface FileRoutesByFullPath {
   '/tools/image-converter': typeof ToolsImageConverterRoute
   '/tools/json-parser': typeof ToolsJsonParserRoute
   '/tools/pixel-converter': typeof ToolsPixelConverterRoute
+  '/tools/svg-optimizer': typeof ToolsSvgOptimizerRoute
   '/tools/yaml-linter': typeof ToolsYamlLinterRoute
   '/tools': typeof ToolsIndexRoute
 }
@@ -76,6 +83,7 @@ export interface FileRoutesByTo {
   '/tools/image-converter': typeof ToolsImageConverterRoute
   '/tools/json-parser': typeof ToolsJsonParserRoute
   '/tools/pixel-converter': typeof ToolsPixelConverterRoute
+  '/tools/svg-optimizer': typeof ToolsSvgOptimizerRoute
   '/tools/yaml-linter': typeof ToolsYamlLinterRoute
   '/tools': typeof ToolsIndexRoute
 }
@@ -87,6 +95,7 @@ export interface FileRoutesById {
   '/tools/image-converter': typeof ToolsImageConverterRoute
   '/tools/json-parser': typeof ToolsJsonParserRoute
   '/tools/pixel-converter': typeof ToolsPixelConverterRoute
+  '/tools/svg-optimizer': typeof ToolsSvgOptimizerRoute
   '/tools/yaml-linter': typeof ToolsYamlLinterRoute
   '/tools/': typeof ToolsIndexRoute
 }
@@ -99,6 +108,7 @@ export interface FileRouteTypes {
     | '/tools/image-converter'
     | '/tools/json-parser'
     | '/tools/pixel-converter'
+    | '/tools/svg-optimizer'
     | '/tools/yaml-linter'
     | '/tools'
   fileRoutesByTo: FileRoutesByTo
@@ -109,6 +119,7 @@ export interface FileRouteTypes {
     | '/tools/image-converter'
     | '/tools/json-parser'
     | '/tools/pixel-converter'
+    | '/tools/svg-optimizer'
     | '/tools/yaml-linter'
     | '/tools'
   id:
@@ -119,6 +130,7 @@ export interface FileRouteTypes {
     | '/tools/image-converter'
     | '/tools/json-parser'
     | '/tools/pixel-converter'
+    | '/tools/svg-optimizer'
     | '/tools/yaml-linter'
     | '/tools/'
   fileRoutesById: FileRoutesById
@@ -130,6 +142,7 @@ export interface RootRouteChildren {
   ToolsImageConverterRoute: typeof ToolsImageConverterRoute
   ToolsJsonParserRoute: typeof ToolsJsonParserRoute
   ToolsPixelConverterRoute: typeof ToolsPixelConverterRoute
+  ToolsSvgOptimizerRoute: typeof ToolsSvgOptimizerRoute
   ToolsYamlLinterRoute: typeof ToolsYamlLinterRoute
   ToolsIndexRoute: typeof ToolsIndexRoute
 }
@@ -155,6 +168,13 @@ declare module '@tanstack/react-router' {
       path: '/tools/yaml-linter'
       fullPath: '/tools/yaml-linter'
       preLoaderRoute: typeof ToolsYamlLinterRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/tools/svg-optimizer': {
+      id: '/tools/svg-optimizer'
+      path: '/tools/svg-optimizer'
+      fullPath: '/tools/svg-optimizer'
+      preLoaderRoute: typeof ToolsSvgOptimizerRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/tools/pixel-converter': {
@@ -202,6 +222,7 @@ const rootRouteChildren: RootRouteChildren = {
   ToolsImageConverterRoute: ToolsImageConverterRoute,
   ToolsJsonParserRoute: ToolsJsonParserRoute,
   ToolsPixelConverterRoute: ToolsPixelConverterRoute,
+  ToolsSvgOptimizerRoute: ToolsSvgOptimizerRoute,
   ToolsYamlLinterRoute: ToolsYamlLinterRoute,
   ToolsIndexRoute: ToolsIndexRoute,
 }
