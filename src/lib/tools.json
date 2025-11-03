@@ -8,6 +8,14 @@
     "featured": true
   },
   {
+    "slug": "css-parser",
+    "name": "CSS Parser, Linter & Formatter",
+    "description": "Validate, format, and minify modern CSS with native nesting support.",
+    "tags": ["css", "parser", "lint", "format", "nesting"],
+    "href": "/tools/css-parser",
+    "featured": true
+  },
+  {
     "slug": "image-converter",
     "name": "Image Converter",
     "description": "Convert images between PNG, JPEG, and WebP directly in your browser.",
@@ -21,7 +29,7 @@
     "description": "Translate measurements between px, rem, and em with a custom root size.",
     "tags": ["pixels", "css", "responsive", "rem", "converter"],
     "href": "/tools/pixel-converter",
-    "featured": true
+    "featured": false
   },
   {
     "slug": "color-converter",

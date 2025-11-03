@@ -14,6 +14,7 @@ import { Route as ToolsIndexRouteImport } from './routes/tools/index'
 import { Route as ToolsPixelConverterRouteImport } from './routes/tools/pixel-converter'
 import { Route as ToolsJsonParserRouteImport } from './routes/tools/json-parser'
 import { Route as ToolsImageConverterRouteImport } from './routes/tools/image-converter'
+import { Route as ToolsCssParserRouteImport } from './routes/tools/css-parser'
 import { Route as ToolsColorConverterRouteImport } from './routes/tools/color-converter'
 
 const IndexRoute = IndexRouteImport.update({
@@ -41,6 +42,11 @@ const ToolsImageConverterRoute = ToolsImageConverterRouteImport.update({
   path: '/tools/image-converter',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ToolsCssParserRoute = ToolsCssParserRouteImport.update({
+  id: '/tools/css-parser',
+  path: '/tools/css-parser',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ToolsColorConverterRoute = ToolsColorConverterRouteImport.update({
   id: '/tools/color-converter',
   path: '/tools/color-converter',
@@ -50,6 +56,7 @@ const ToolsColorConverterRoute = ToolsColorConverterRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/tools/color-converter': typeof ToolsColorConverterRoute
+  '/tools/css-parser': typeof ToolsCssParserRoute
   '/tools/image-converter': typeof ToolsImageConverterRoute
   '/tools/json-parser': typeof ToolsJsonParserRoute
   '/tools/pixel-converter': typeof ToolsPixelConverterRoute
@@ -58,6 +65,7 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/tools/color-converter': typeof ToolsColorConverterRoute
+  '/tools/css-parser': typeof ToolsCssParserRoute
   '/tools/image-converter': typeof ToolsImageConverterRoute
   '/tools/json-parser': typeof ToolsJsonParserRoute
   '/tools/pixel-converter': typeof ToolsPixelConverterRoute
@@ -67,6 +75,7 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/tools/color-converter': typeof ToolsColorConverterRoute
+  '/tools/css-parser': typeof ToolsCssParserRoute
   '/tools/image-converter': typeof ToolsImageConverterRoute
   '/tools/json-parser': typeof ToolsJsonParserRoute
   '/tools/pixel-converter': typeof ToolsPixelConverterRoute
@@ -77,6 +86,7 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/tools/color-converter'
+    | '/tools/css-parser'
     | '/tools/image-converter'
     | '/tools/json-parser'
     | '/tools/pixel-converter'
@@ -85,6 +95,7 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/tools/color-converter'
+    | '/tools/css-parser'
     | '/tools/image-converter'
     | '/tools/json-parser'
     | '/tools/pixel-converter'
@@ -93,6 +104,7 @@ export interface FileRouteTypes {
     | '__root__'
     | '/'
     | '/tools/color-converter'
+    | '/tools/css-parser'
     | '/tools/image-converter'
     | '/tools/json-parser'
     | '/tools/pixel-converter'
@@ -102,6 +114,7 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   ToolsColorConverterRoute: typeof ToolsColorConverterRoute
+  ToolsCssParserRoute: typeof ToolsCssParserRoute
   ToolsImageConverterRoute: typeof ToolsImageConverterRoute
   ToolsJsonParserRoute: typeof ToolsJsonParserRoute
   ToolsPixelConverterRoute: typeof ToolsPixelConverterRoute
@@ -145,6 +158,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ToolsImageConverterRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/tools/css-parser': {
+      id: '/tools/css-parser'
+      path: '/tools/css-parser'
+      fullPath: '/tools/css-parser'
+      preLoaderRoute: typeof ToolsCssParserRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/tools/color-converter': {
       id: '/tools/color-converter'
       path: '/tools/color-converter'
@@ -158,6 +178,7 @@ declare module '@tanstack/react-router' {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   ToolsColorConverterRoute: ToolsColorConverterRoute,
+  ToolsCssParserRoute: ToolsCssParserRoute,
   ToolsImageConverterRoute: ToolsImageConverterRoute,
   ToolsJsonParserRoute: ToolsJsonParserRoute,
   ToolsPixelConverterRoute: ToolsPixelConverterRoute,
