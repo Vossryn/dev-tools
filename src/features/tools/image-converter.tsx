@@ -3,11 +3,11 @@ import React, { useCallback, useEffect, useMemo, useRef, useState } from "react"
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
+    Select,
+    SelectContent,
+    SelectItem,
+    SelectTrigger,
+    SelectValue,
 } from "@/components/ui/select";
 import { Slider } from "@/components/ui/slider";
 import { Toggle } from "@/components/ui/toggle";
@@ -572,6 +572,9 @@ export default function ImageConverter() {
           <Button type="button" onClick={openFilePicker} className="w-fit">
             {file ? "Change image" : "Choose image"}
           </Button>
+          <p className="text-xs text-muted-foreground">
+            Files never leave your device; they are read with the FileReader API.
+          </p>
           {file ? (
             <p className="text-xs text-muted-foreground">
               Loaded {file.name} · {formatBytes(file.size)}
