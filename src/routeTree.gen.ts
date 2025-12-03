@@ -15,6 +15,7 @@ import { Route as ToolsYamlLinterRouteImport } from './routes/tools/yaml-linter'
 import { Route as ToolsSvgOptimizerRouteImport } from './routes/tools/svg-optimizer'
 import { Route as ToolsRegexTesterRouteImport } from './routes/tools/regex-tester'
 import { Route as ToolsPixelConverterRouteImport } from './routes/tools/pixel-converter'
+import { Route as ToolsMarkdownPreviewRouteImport } from './routes/tools/markdown-preview'
 import { Route as ToolsJsonParserRouteImport } from './routes/tools/json-parser'
 import { Route as ToolsImageConverterRouteImport } from './routes/tools/image-converter'
 import { Route as ToolsCssParserRouteImport } from './routes/tools/css-parser'
@@ -51,6 +52,11 @@ const ToolsPixelConverterRoute = ToolsPixelConverterRouteImport.update({
   path: '/tools/pixel-converter',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ToolsMarkdownPreviewRoute = ToolsMarkdownPreviewRouteImport.update({
+  id: '/tools/markdown-preview',
+  path: '/tools/markdown-preview',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ToolsJsonParserRoute = ToolsJsonParserRouteImport.update({
   id: '/tools/json-parser',
   path: '/tools/json-parser',
@@ -84,6 +90,7 @@ export interface FileRoutesByFullPath {
   '/tools/css-parser': typeof ToolsCssParserRoute
   '/tools/image-converter': typeof ToolsImageConverterRoute
   '/tools/json-parser': typeof ToolsJsonParserRoute
+  '/tools/markdown-preview': typeof ToolsMarkdownPreviewRoute
   '/tools/pixel-converter': typeof ToolsPixelConverterRoute
   '/tools/regex-tester': typeof ToolsRegexTesterRoute
   '/tools/svg-optimizer': typeof ToolsSvgOptimizerRoute
@@ -97,6 +104,7 @@ export interface FileRoutesByTo {
   '/tools/css-parser': typeof ToolsCssParserRoute
   '/tools/image-converter': typeof ToolsImageConverterRoute
   '/tools/json-parser': typeof ToolsJsonParserRoute
+  '/tools/markdown-preview': typeof ToolsMarkdownPreviewRoute
   '/tools/pixel-converter': typeof ToolsPixelConverterRoute
   '/tools/regex-tester': typeof ToolsRegexTesterRoute
   '/tools/svg-optimizer': typeof ToolsSvgOptimizerRoute
@@ -111,6 +119,7 @@ export interface FileRoutesById {
   '/tools/css-parser': typeof ToolsCssParserRoute
   '/tools/image-converter': typeof ToolsImageConverterRoute
   '/tools/json-parser': typeof ToolsJsonParserRoute
+  '/tools/markdown-preview': typeof ToolsMarkdownPreviewRoute
   '/tools/pixel-converter': typeof ToolsPixelConverterRoute
   '/tools/regex-tester': typeof ToolsRegexTesterRoute
   '/tools/svg-optimizer': typeof ToolsSvgOptimizerRoute
@@ -126,6 +135,7 @@ export interface FileRouteTypes {
     | '/tools/css-parser'
     | '/tools/image-converter'
     | '/tools/json-parser'
+    | '/tools/markdown-preview'
     | '/tools/pixel-converter'
     | '/tools/regex-tester'
     | '/tools/svg-optimizer'
@@ -139,6 +149,7 @@ export interface FileRouteTypes {
     | '/tools/css-parser'
     | '/tools/image-converter'
     | '/tools/json-parser'
+    | '/tools/markdown-preview'
     | '/tools/pixel-converter'
     | '/tools/regex-tester'
     | '/tools/svg-optimizer'
@@ -152,6 +163,7 @@ export interface FileRouteTypes {
     | '/tools/css-parser'
     | '/tools/image-converter'
     | '/tools/json-parser'
+    | '/tools/markdown-preview'
     | '/tools/pixel-converter'
     | '/tools/regex-tester'
     | '/tools/svg-optimizer'
@@ -166,6 +178,7 @@ export interface RootRouteChildren {
   ToolsCssParserRoute: typeof ToolsCssParserRoute
   ToolsImageConverterRoute: typeof ToolsImageConverterRoute
   ToolsJsonParserRoute: typeof ToolsJsonParserRoute
+  ToolsMarkdownPreviewRoute: typeof ToolsMarkdownPreviewRoute
   ToolsPixelConverterRoute: typeof ToolsPixelConverterRoute
   ToolsRegexTesterRoute: typeof ToolsRegexTesterRoute
   ToolsSvgOptimizerRoute: typeof ToolsSvgOptimizerRoute
@@ -217,6 +230,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ToolsPixelConverterRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/tools/markdown-preview': {
+      id: '/tools/markdown-preview'
+      path: '/tools/markdown-preview'
+      fullPath: '/tools/markdown-preview'
+      preLoaderRoute: typeof ToolsMarkdownPreviewRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/tools/json-parser': {
       id: '/tools/json-parser'
       path: '/tools/json-parser'
@@ -262,6 +282,7 @@ const rootRouteChildren: RootRouteChildren = {
   ToolsCssParserRoute: ToolsCssParserRoute,
   ToolsImageConverterRoute: ToolsImageConverterRoute,
   ToolsJsonParserRoute: ToolsJsonParserRoute,
+  ToolsMarkdownPreviewRoute: ToolsMarkdownPreviewRoute,
   ToolsPixelConverterRoute: ToolsPixelConverterRoute,
   ToolsRegexTesterRoute: ToolsRegexTesterRoute,
   ToolsSvgOptimizerRoute: ToolsSvgOptimizerRoute,

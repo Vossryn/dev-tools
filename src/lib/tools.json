@@ -70,5 +70,13 @@
     "tags": ["regex", "pattern", "test", "match", "debug"],
     "href": "/tools/regex-tester",
     "featured": true
+  },
+  {
+    "slug": "markdown-preview",
+    "name": "Markdown Preview",
+    "description": "Side-by-side Markdown editor with HTML export for docs/snippets.",
+    "tags": ["markdown", "preview", "editor", "html", "export"],
+    "href": "/tools/markdown-preview",
+    "featured": true
   }
 ]
