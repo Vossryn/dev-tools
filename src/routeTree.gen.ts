@@ -17,6 +17,7 @@ import { Route as ToolsPixelConverterRouteImport } from './routes/tools/pixel-co
 import { Route as ToolsJsonParserRouteImport } from './routes/tools/json-parser'
 import { Route as ToolsImageConverterRouteImport } from './routes/tools/image-converter'
 import { Route as ToolsCssParserRouteImport } from './routes/tools/css-parser'
+import { Route as ToolsContrastCheckerRouteImport } from './routes/tools/contrast-checker'
 import { Route as ToolsColorConverterRouteImport } from './routes/tools/color-converter'
 
 const IndexRoute = IndexRouteImport.update({
@@ -59,6 +60,11 @@ const ToolsCssParserRoute = ToolsCssParserRouteImport.update({
   path: '/tools/css-parser',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ToolsContrastCheckerRoute = ToolsContrastCheckerRouteImport.update({
+  id: '/tools/contrast-checker',
+  path: '/tools/contrast-checker',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ToolsColorConverterRoute = ToolsColorConverterRouteImport.update({
   id: '/tools/color-converter',
   path: '/tools/color-converter',
@@ -68,6 +74,7 @@ const ToolsColorConverterRoute = ToolsColorConverterRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/tools/color-converter': typeof ToolsColorConverterRoute
+  '/tools/contrast-checker': typeof ToolsContrastCheckerRoute
   '/tools/css-parser': typeof ToolsCssParserRoute
   '/tools/image-converter': typeof ToolsImageConverterRoute
   '/tools/json-parser': typeof ToolsJsonParserRoute
@@ -79,6 +86,7 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/tools/color-converter': typeof ToolsColorConverterRoute
+  '/tools/contrast-checker': typeof ToolsContrastCheckerRoute
   '/tools/css-parser': typeof ToolsCssParserRoute
   '/tools/image-converter': typeof ToolsImageConverterRoute
   '/tools/json-parser': typeof ToolsJsonParserRoute
@@ -91,6 +99,7 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/tools/color-converter': typeof ToolsColorConverterRoute
+  '/tools/contrast-checker': typeof ToolsContrastCheckerRoute
   '/tools/css-parser': typeof ToolsCssParserRoute
   '/tools/image-converter': typeof ToolsImageConverterRoute
   '/tools/json-parser': typeof ToolsJsonParserRoute
@@ -104,6 +113,7 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/tools/color-converter'
+    | '/tools/contrast-checker'
     | '/tools/css-parser'
     | '/tools/image-converter'
     | '/tools/json-parser'
@@ -115,6 +125,7 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/tools/color-converter'
+    | '/tools/contrast-checker'
     | '/tools/css-parser'
     | '/tools/image-converter'
     | '/tools/json-parser'
@@ -126,6 +137,7 @@ export interface FileRouteTypes {
     | '__root__'
     | '/'
     | '/tools/color-converter'
+    | '/tools/contrast-checker'
     | '/tools/css-parser'
     | '/tools/image-converter'
     | '/tools/json-parser'
@@ -138,6 +150,7 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   ToolsColorConverterRoute: typeof ToolsColorConverterRoute
+  ToolsContrastCheckerRoute: typeof ToolsContrastCheckerRoute
   ToolsCssParserRoute: typeof ToolsCssParserRoute
   ToolsImageConverterRoute: typeof ToolsImageConverterRoute
   ToolsJsonParserRoute: typeof ToolsJsonParserRoute
@@ -205,6 +218,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ToolsCssParserRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/tools/contrast-checker': {
+      id: '/tools/contrast-checker'
+      path: '/tools/contrast-checker'
+      fullPath: '/tools/contrast-checker'
+      preLoaderRoute: typeof ToolsContrastCheckerRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/tools/color-converter': {
       id: '/tools/color-converter'
       path: '/tools/color-converter'
@@ -218,6 +238,7 @@ declare module '@tanstack/react-router' {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   ToolsColorConverterRoute: ToolsColorConverterRoute,
+  ToolsContrastCheckerRoute: ToolsContrastCheckerRoute,
   ToolsCssParserRoute: ToolsCssParserRoute,
   ToolsImageConverterRoute: ToolsImageConverterRoute,
   ToolsJsonParserRoute: ToolsJsonParserRoute,

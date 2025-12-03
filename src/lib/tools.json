@@ -54,5 +54,13 @@
     "tags": ["svg", "optimizer", "svgo", "vector", "minify"],
     "href": "/tools/svg-optimizer",
     "featured": true
+  },
+  {
+    "slug": "contrast-checker",
+    "name": "Contrast Checker",
+    "description": "Calculate contrast ratios and check WCAG compliance for accessibility.",
+    "tags": ["color", "contrast", "wcag", "accessibility", "checker"],
+    "href": "/tools/contrast-checker",
+    "featured": true
   }
 ]
