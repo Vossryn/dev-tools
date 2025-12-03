@@ -13,7 +13,7 @@
     "description": "Validate, prettify, and inspect YAML documents—including multi-document files—in the browser.",
     "tags": ["yaml", "parser", "lint", "format"],
     "href": "/tools/yaml-linter",
-    "featured": false
+    "featured": true
   },
   {
     "slug": "css-parser",
