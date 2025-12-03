@@ -62,5 +62,13 @@
     "tags": ["color", "contrast", "wcag", "accessibility", "checker"],
     "href": "/tools/contrast-checker",
     "featured": true
+  },
+  {
+    "slug": "regex-tester",
+    "name": "Regex Tester",
+    "description": "Real-time regex tester with explainers and shareable test cases for frontend debugging.",
+    "tags": ["regex", "pattern", "test", "match", "debug"],
+    "href": "/tools/regex-tester",
+    "featured": true
   }
 ]
