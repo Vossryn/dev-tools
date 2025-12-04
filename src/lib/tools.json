@@ -37,7 +37,7 @@
     "description": "Translate measurements between px, rem, and em with a custom root size.",
     "tags": ["pixels", "css", "responsive", "rem", "converter"],
     "href": "/tools/pixel-converter",
-    "featured": false
+    "featured": true
   },
   {
     "slug": "color-converter",
@@ -53,7 +53,7 @@
     "description": "Upload and clean SVGs with SVGO presets, preview, and export.",
     "tags": ["svg", "optimizer", "svgo", "vector", "minify"],
     "href": "/tools/svg-optimizer",
-    "featured": true
+    "featured": false
   },
   {
     "slug": "contrast-checker",
@@ -61,7 +61,7 @@
     "description": "Calculate contrast ratios and check WCAG compliance for accessibility.",
     "tags": ["color", "contrast", "wcag", "accessibility", "checker"],
     "href": "/tools/contrast-checker",
-    "featured": true
+    "featured": false
   },
   {
     "slug": "regex-tester",
@@ -69,7 +69,7 @@
     "description": "Real-time regex tester with explainers and shareable test cases for frontend debugging.",
     "tags": ["regex", "pattern", "test", "match", "debug"],
     "href": "/tools/regex-tester",
-    "featured": true
+    "featured": false
   },
   {
     "slug": "markdown-preview",
@@ -77,6 +77,6 @@
     "description": "Side-by-side Markdown editor with HTML export for docs/snippets.",
     "tags": ["markdown", "preview", "editor", "html", "export"],
     "href": "/tools/markdown-preview",
-    "featured": true
+    "featured": false
   }
 ]
