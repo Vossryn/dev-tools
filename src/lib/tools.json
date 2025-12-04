@@ -78,5 +78,13 @@
     "tags": ["markdown", "preview", "editor", "html", "export"],
     "href": "/tools/markdown-preview",
     "featured": false
+  },
+  {
+    "slug": "data-uri-encoder",
+    "name": "Data URI Encoder",
+    "description": "Convert files or strings into data URIs/Base64 blobs for quick inlining.",
+    "tags": ["base64", "data-uri", "encoder", "converter", "inline"],
+    "href": "/tools/data-uri-encoder",
+    "featured": false
   }
 ]

@@ -18,6 +18,7 @@ import { Route as ToolsPixelConverterRouteImport } from './routes/tools/pixel-co
 import { Route as ToolsMarkdownPreviewRouteImport } from './routes/tools/markdown-preview'
 import { Route as ToolsJsonParserRouteImport } from './routes/tools/json-parser'
 import { Route as ToolsImageConverterRouteImport } from './routes/tools/image-converter'
+import { Route as ToolsDataUriEncoderRouteImport } from './routes/tools/data-uri-encoder'
 import { Route as ToolsCssParserRouteImport } from './routes/tools/css-parser'
 import { Route as ToolsContrastCheckerRouteImport } from './routes/tools/contrast-checker'
 import { Route as ToolsColorConverterRouteImport } from './routes/tools/color-converter'
@@ -67,6 +68,11 @@ const ToolsImageConverterRoute = ToolsImageConverterRouteImport.update({
   path: '/tools/image-converter',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ToolsDataUriEncoderRoute = ToolsDataUriEncoderRouteImport.update({
+  id: '/tools/data-uri-encoder',
+  path: '/tools/data-uri-encoder',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ToolsCssParserRoute = ToolsCssParserRouteImport.update({
   id: '/tools/css-parser',
   path: '/tools/css-parser',
@@ -88,6 +94,7 @@ export interface FileRoutesByFullPath {
   '/tools/color-converter': typeof ToolsColorConverterRoute
   '/tools/contrast-checker': typeof ToolsContrastCheckerRoute
   '/tools/css-parser': typeof ToolsCssParserRoute
+  '/tools/data-uri-encoder': typeof ToolsDataUriEncoderRoute
   '/tools/image-converter': typeof ToolsImageConverterRoute
   '/tools/json-parser': typeof ToolsJsonParserRoute
   '/tools/markdown-preview': typeof ToolsMarkdownPreviewRoute
@@ -102,6 +109,7 @@ export interface FileRoutesByTo {
   '/tools/color-converter': typeof ToolsColorConverterRoute
   '/tools/contrast-checker': typeof ToolsContrastCheckerRoute
   '/tools/css-parser': typeof ToolsCssParserRoute
+  '/tools/data-uri-encoder': typeof ToolsDataUriEncoderRoute
   '/tools/image-converter': typeof ToolsImageConverterRoute
   '/tools/json-parser': typeof ToolsJsonParserRoute
   '/tools/markdown-preview': typeof ToolsMarkdownPreviewRoute
@@ -117,6 +125,7 @@ export interface FileRoutesById {
   '/tools/color-converter': typeof ToolsColorConverterRoute
   '/tools/contrast-checker': typeof ToolsContrastCheckerRoute
   '/tools/css-parser': typeof ToolsCssParserRoute
+  '/tools/data-uri-encoder': typeof ToolsDataUriEncoderRoute
   '/tools/image-converter': typeof ToolsImageConverterRoute
   '/tools/json-parser': typeof ToolsJsonParserRoute
   '/tools/markdown-preview': typeof ToolsMarkdownPreviewRoute
@@ -133,6 +142,7 @@ export interface FileRouteTypes {
     | '/tools/color-converter'
     | '/tools/contrast-checker'
     | '/tools/css-parser'
+    | '/tools/data-uri-encoder'
     | '/tools/image-converter'
     | '/tools/json-parser'
     | '/tools/markdown-preview'
@@ -147,6 +157,7 @@ export interface FileRouteTypes {
     | '/tools/color-converter'
     | '/tools/contrast-checker'
     | '/tools/css-parser'
+    | '/tools/data-uri-encoder'
     | '/tools/image-converter'
     | '/tools/json-parser'
     | '/tools/markdown-preview'
@@ -161,6 +172,7 @@ export interface FileRouteTypes {
     | '/tools/color-converter'
     | '/tools/contrast-checker'
     | '/tools/css-parser'
+    | '/tools/data-uri-encoder'
     | '/tools/image-converter'
     | '/tools/json-parser'
     | '/tools/markdown-preview'
@@ -176,6 +188,7 @@ export interface RootRouteChildren {
   ToolsColorConverterRoute: typeof ToolsColorConverterRoute
   ToolsContrastCheckerRoute: typeof ToolsContrastCheckerRoute
   ToolsCssParserRoute: typeof ToolsCssParserRoute
+  ToolsDataUriEncoderRoute: typeof ToolsDataUriEncoderRoute
   ToolsImageConverterRoute: typeof ToolsImageConverterRoute
   ToolsJsonParserRoute: typeof ToolsJsonParserRoute
   ToolsMarkdownPreviewRoute: typeof ToolsMarkdownPreviewRoute
@@ -251,6 +264,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ToolsImageConverterRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/tools/data-uri-encoder': {
+      id: '/tools/data-uri-encoder'
+      path: '/tools/data-uri-encoder'
+      fullPath: '/tools/data-uri-encoder'
+      preLoaderRoute: typeof ToolsDataUriEncoderRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/tools/css-parser': {
       id: '/tools/css-parser'
       path: '/tools/css-parser'
@@ -280,6 +300,7 @@ const rootRouteChildren: RootRouteChildren = {
   ToolsColorConverterRoute: ToolsColorConverterRoute,
   ToolsContrastCheckerRoute: ToolsContrastCheckerRoute,
   ToolsCssParserRoute: ToolsCssParserRoute,
+  ToolsDataUriEncoderRoute: ToolsDataUriEncoderRoute,
   ToolsImageConverterRoute: ToolsImageConverterRoute,
   ToolsJsonParserRoute: ToolsJsonParserRoute,
   ToolsMarkdownPreviewRoute: ToolsMarkdownPreviewRoute,
