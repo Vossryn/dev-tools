@@ -33,6 +33,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
+import { useDebounce } from "@/hooks/use-debounce";
 
 const INDENT_OPTIONS = ["2", "4", "tab"] as const;
 
@@ -182,6 +183,8 @@ const JsonParserTool: React.FC = () => {
   const textareaRef = useRef<HTMLTextAreaElement | null>(null);
   const lineNumberContentRef = useRef<HTMLPreElement | null>(null);
 
+  const debouncedInput = useDebounce(rawInput, 300);
+
   useEffect(() => {
     return () => {
       if (copyResetRef.current) {
@@ -192,14 +195,14 @@ const JsonParserTool: React.FC = () => {
   }, []);
 
   const parseState: ParseState = useMemo(() => {
-    if (!rawInput.trim()) {
+    if (!debouncedInput.trim()) {
       return { status: "empty" };
     }
 
     try {
-      const parsed = JSON.parse(rawInput);
-      const characters = rawInput.length;
-      const bytes = getByteSize(rawInput);
+      const parsed = JSON.parse(debouncedInput);
+      const characters = debouncedInput.length;
+      const bytes = getByteSize(debouncedInput);
       const rootType = Array.isArray(parsed)
         ? "array"
         : parsed === null
@@ -223,7 +226,7 @@ const JsonParserTool: React.FC = () => {
         entryCount,
       };
     } catch (error) {
-      const details = getJsonErrorDetails(rawInput, error);
+      const details = getJsonErrorDetails(debouncedInput, error);
       const baseMessage =
         "message" in (error as { message?: unknown }) && typeof (error as { message?: unknown }).message === "string"
           ? (error as { message: string }).message
@@ -235,7 +238,7 @@ const JsonParserTool: React.FC = () => {
         ...rest,
       };
     }
-  }, [rawInput]);
+  }, [debouncedInput]);
 
   const handleInputChange = useCallback((event: React.ChangeEvent<HTMLTextAreaElement>) => {
     setRawInput(event.target.value);
@@ -325,7 +328,13 @@ const JsonParserTool: React.FC = () => {
   }, []);
 
   const lineCount = useMemo(() => {
-    return Math.max(1, rawInput.split(/\r?\n/).length);
+    let count = 1;
+    for (let i = 0; i < rawInput.length; i++) {
+      if (rawInput[i] === "\n") {
+        count++;
+      }
+    }
+    return count;
   }, [rawInput]);
 
   const lineDigitWidth = useMemo(() => {

@@ -1,33 +1,34 @@
 import {
-    AlertTriangle,
-    CheckCircle2,
-    ClipboardCopy,
-    FileCode,
-    Trash2,
-    Upload,
-    Wand2,
+  AlertTriangle,
+  CheckCircle2,
+  ClipboardCopy,
+  FileCode,
+  Trash2,
+  Upload,
+  Wand2,
 } from "lucide-react";
 import React, {
-    useCallback,
-    useEffect,
-    useMemo,
-    useRef,
-    useState,
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
 } from "react";
 import { parseAllDocuments } from "yaml";
 
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
-    Card,
-    CardContent,
-    CardDescription,
-    CardHeader,
-    CardTitle,
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
 } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
+import { useDebounce } from "@/hooks/use-debounce";
 
 const INDENT_OPTIONS = ["2", "4"] as const;
 
@@ -243,6 +244,8 @@ const YamlLinterTool: React.FC = () => {
   const textareaRef = useRef<HTMLTextAreaElement | null>(null);
   const lineNumberContentRef = useRef<HTMLPreElement | null>(null);
 
+  const debouncedInput = useDebounce(rawInput, 300);
+
   useEffect(() => {
     return () => {
       if (copyResetRef.current) {
@@ -253,15 +256,15 @@ const YamlLinterTool: React.FC = () => {
   }, []);
 
   const parseState: ParseState = useMemo(() => {
-    if (!rawInput.trim()) {
+    if (!debouncedInput.trim()) {
       return { status: "empty" };
     }
 
     let documents: ReturnType<typeof parseAllDocuments>;
     try {
-      documents = parseAllDocuments(rawInput, { prettyErrors: true });
+      documents = parseAllDocuments(debouncedInput, { prettyErrors: true });
     } catch (error) {
-      const details = extractYamlErrorDetails(rawInput, error);
+      const details = extractYamlErrorDetails(debouncedInput, error);
       return {
         status: "invalid",
         ...details,
@@ -277,7 +280,7 @@ const YamlLinterTool: React.FC = () => {
     const erroredDocument = documents.find((doc) => doc.errors.length > 0);
     if (erroredDocument) {
       const error = erroredDocument.errors[0];
-      const details = extractYamlErrorDetails(rawInput, error);
+      const details = extractYamlErrorDetails(debouncedInput, error);
       return {
         status: "invalid",
         ...details,
@@ -307,12 +310,12 @@ const YamlLinterTool: React.FC = () => {
       status: "valid",
       formatted,
       jsonPreviews,
-      characters: rawInput.length,
-      bytes: getByteSize(rawInput),
+      characters: debouncedInput.length,
+      bytes: getByteSize(debouncedInput),
       documentCount: documents.length,
       summaries,
     };
-  }, [indentSetting, rawInput]);
+  }, [indentSetting, debouncedInput]);
 
   const handleInputChange = useCallback((event: React.ChangeEvent<HTMLTextAreaElement>) => {
     setRawInput(event.target.value);
@@ -394,7 +397,13 @@ const YamlLinterTool: React.FC = () => {
   }, []);
 
   const lineCount = useMemo(() => {
-    return Math.max(1, rawInput.split(/\r?\n/).length);
+    let count = 1;
+    for (let i = 0; i < rawInput.length; i++) {
+      if (rawInput[i] === "\n") {
+        count++;
+      }
+    }
+    return count;
   }, [rawInput]);
 
   const lineDigitWidth = useMemo(() => {

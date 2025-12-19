@@ -38,6 +38,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
+import { useDebounce } from "@/hooks/use-debounce";
 
 const INDENT_OPTIONS = ["2", "4", "tab"] as const;
 
@@ -251,6 +252,8 @@ const CssParserTool: React.FC = () => {
   const textareaRef = useRef<HTMLTextAreaElement | null>(null);
   const lineNumberContentRef = useRef<HTMLPreElement | null>(null);
 
+  const debouncedInput = useDebounce(rawInput, 300);
+
   useEffect(() => {
     return () => {
       if (copyResetRef.current) {
@@ -261,14 +264,14 @@ const CssParserTool: React.FC = () => {
   }, []);
 
   const parseState: ParseState = useMemo(() => {
-    if (!rawInput.trim()) {
+    if (!debouncedInput.trim()) {
       return { status: "empty" };
     }
 
     try {
-      const root = postcss.parse(rawInput, { from: undefined });
-      const characters = rawInput.length;
-      const bytes = getByteSize(rawInput);
+      const root = postcss.parse(debouncedInput, { from: undefined });
+      const characters = debouncedInput.length;
+      const bytes = getByteSize(debouncedInput);
       const stats = computeCssStats(root);
 
       return {
@@ -278,13 +281,13 @@ const CssParserTool: React.FC = () => {
         stats,
       };
     } catch (error) {
-      const details = getCssErrorDetails(rawInput, error);
+      const details = getCssErrorDetails(debouncedInput, error);
       return {
         status: "invalid",
         ...details,
       };
     }
-  }, [rawInput]);
+  }, [debouncedInput]);
 
   useEffect(() => {
     let cancelled = false;
@@ -297,7 +300,7 @@ const CssParserTool: React.FC = () => {
 
     (async () => {
       try {
-        const formatted = await formatCss(rawInput, "2");
+        const formatted = await formatCss(debouncedInput, "2");
         if (cancelled) {
           return;
         }
@@ -316,7 +319,7 @@ const CssParserTool: React.FC = () => {
     return () => {
       cancelled = true;
     };
-  }, [parseState, rawInput]);
+  }, [parseState, debouncedInput]);
 
   const handleInputChange = useCallback((event: React.ChangeEvent<HTMLTextAreaElement>) => {
     setRawInput(event.target.value);
@@ -434,7 +437,13 @@ const CssParserTool: React.FC = () => {
   }, []);
 
   const lineCount = useMemo(() => {
-    return Math.max(1, rawInput.split(/\r?\n/).length);
+    let count = 1;
+    for (let i = 0; i < rawInput.length; i++) {
+      if (rawInput[i] === "\n") {
+        count++;
+      }
+    }
+    return count;
   }, [rawInput]);
 
   const lineDigitWidth = useMemo(() => {
