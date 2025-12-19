@@ -432,7 +432,7 @@ const YamlLinterTool: React.FC = () => {
       }
     });
     return () => cancelAnimationFrame(rafId);
-  }, [rawInput]);
+  }, []);
 
   return (
     <section className="mx-auto flex w-full max-w-5xl flex-col gap-8 px-4 py-10">

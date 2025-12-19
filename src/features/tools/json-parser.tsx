@@ -1,36 +1,36 @@
 import {
-    AlertTriangle,
-    CheckCircle2,
-    ClipboardCopy,
-    Minimize2,
-    Trash2,
-    Upload,
-    Wand2,
+  AlertTriangle,
+  CheckCircle2,
+  ClipboardCopy,
+  Minimize2,
+  Trash2,
+  Upload,
+  Wand2,
 } from "lucide-react";
 import React, {
-    useCallback,
-    useEffect,
-    useMemo,
-    useRef,
-    useState,
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
 } from "react";
 
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
-    Card,
-    CardContent,
-    CardDescription,
-    CardHeader,
-    CardTitle,
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
 } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
 import {
-    Select,
-    SelectContent,
-    SelectItem,
-    SelectTrigger,
-    SelectValue,
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
 } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
 
@@ -363,7 +363,7 @@ const JsonParserTool: React.FC = () => {
       }
     });
     return () => cancelAnimationFrame(rafId);
-  }, [rawInput]);
+  }, []);
 
   const previewOutput = useMemo(() => {
     if (parseState.status !== "valid") {
