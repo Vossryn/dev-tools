@@ -35,6 +35,11 @@ export const Route = createRootRoute({
       {
         title: "Dev Tools | Browser-first utility hub",
       },
+      {
+        name: "description",
+        content:
+          "Browser-first, privacy-friendly developer toolkit. All tools run client-side—no uploads, no accounts. Includes JSON/YAML parsers, image converters, and more.",
+      },
     ],
     links: [
       {
