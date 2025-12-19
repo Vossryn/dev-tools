@@ -411,16 +411,27 @@ const YamlLinterTool: React.FC = () => {
     ).join("\n");
   }, [lineCount, lineDigitWidth]);
 
+  const scrollRafRef = useRef<number | null>(null);
+
   const handleEditorScroll = useCallback((event: React.UIEvent<HTMLTextAreaElement>) => {
-    if (lineNumberContentRef.current) {
-      lineNumberContentRef.current.style.transform = `translateY(${-event.currentTarget.scrollTop}px)`;
+    const scrollTop = event.currentTarget.scrollTop;
+    if (scrollRafRef.current) {
+      cancelAnimationFrame(scrollRafRef.current);
     }
+    scrollRafRef.current = requestAnimationFrame(() => {
+      if (lineNumberContentRef.current) {
+        lineNumberContentRef.current.style.transform = `translateY(${-scrollTop}px)`;
+      }
+    });
   }, []);
 
   useEffect(() => {
-    if (lineNumberContentRef.current && textareaRef.current) {
-      lineNumberContentRef.current.style.transform = `translateY(${-textareaRef.current.scrollTop}px)`;
-    }
+    const rafId = requestAnimationFrame(() => {
+      if (lineNumberContentRef.current && textareaRef.current) {
+        lineNumberContentRef.current.style.transform = `translateY(${-textareaRef.current.scrollTop}px)`;
+      }
+    });
+    return () => cancelAnimationFrame(rafId);
   }, [rawInput]);
 
   return (

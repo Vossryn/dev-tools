@@ -1,41 +1,41 @@
 import { minify as minifyWithCsso } from "csso";
 import {
-  AlertTriangle,
-  CheckCircle2,
-  ClipboardCopy,
-  Minimize2,
-  Trash2,
-  Upload,
-  Wand2,
+    AlertTriangle,
+    CheckCircle2,
+    ClipboardCopy,
+    Minimize2,
+    Trash2,
+    Upload,
+    Wand2,
 } from "lucide-react";
 import postcss, { CssSyntaxError, type Declaration, type Root } from "postcss";
 import postcssNesting from "postcss-nesting";
 import parserPostcss from "prettier/plugins/postcss";
 import prettier from "prettier/standalone";
 import React, {
-  useCallback,
-  useEffect,
-  useMemo,
-  useRef,
-  useState,
+    useCallback,
+    useEffect,
+    useMemo,
+    useRef,
+    useState,
 } from "react";
 
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
+    Card,
+    CardContent,
+    CardDescription,
+    CardHeader,
+    CardTitle,
 } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
 import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
+    Select,
+    SelectContent,
+    SelectItem,
+    SelectTrigger,
+    SelectValue,
 } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
 
@@ -451,16 +451,27 @@ const CssParserTool: React.FC = () => {
     ).join("\n");
   }, [lineCount, lineDigitWidth]);
 
+  const scrollRafRef = useRef<number | null>(null);
+
   const handleEditorScroll = useCallback((event: React.UIEvent<HTMLTextAreaElement>) => {
-    if (lineNumberContentRef.current) {
-      lineNumberContentRef.current.style.transform = `translateY(${-event.currentTarget.scrollTop}px)`;
+    const scrollTop = event.currentTarget.scrollTop;
+    if (scrollRafRef.current) {
+      cancelAnimationFrame(scrollRafRef.current);
     }
+    scrollRafRef.current = requestAnimationFrame(() => {
+      if (lineNumberContentRef.current) {
+        lineNumberContentRef.current.style.transform = `translateY(${-scrollTop}px)`;
+      }
+    });
   }, []);
 
   useEffect(() => {
-    if (lineNumberContentRef.current && textareaRef.current) {
-      lineNumberContentRef.current.style.transform = `translateY(${-textareaRef.current.scrollTop}px)`;
-    }
+    const rafId = requestAnimationFrame(() => {
+      if (lineNumberContentRef.current && textareaRef.current) {
+        lineNumberContentRef.current.style.transform = `translateY(${-textareaRef.current.scrollTop}px)`;
+      }
+    });
+    return () => cancelAnimationFrame(rafId);
   }, [rawInput]);
 
   return (
