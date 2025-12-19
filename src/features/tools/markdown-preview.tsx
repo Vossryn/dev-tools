@@ -4,6 +4,7 @@ import {
   ClipboardCopy,
   Code2,
   Download,
+  Eye,
   FileText,
   Trash2,
 } from "lucide-react";
@@ -18,11 +19,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import {
-  ResizableHandle,
-  ResizablePanel,
-  ResizablePanelGroup,
-} from "@/components/ui/resizable";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Textarea } from "@/components/ui/textarea";
 
 // Configure marked for GitHub Flavored Markdown
@@ -187,6 +184,7 @@ type CopyState = "idle" | "success" | "error";
 
 const MarkdownPreviewTool: React.FC = () => {
     const [markdown, setMarkdown] = useState<string>(INITIAL_MARKDOWN);
+    const [activeTab, setActiveTab] = useState<"edit" | "preview">("edit");
     const [copyMarkdownState, setCopyMarkdownState] = useState<CopyState>("idle");
     const [copyHtmlState, setCopyHtmlState] = useState<CopyState>("idle");
     const copyMarkdownResetRef = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -355,13 +353,24 @@ ${renderedHtml}
                     <CardHeader>
                         <CardTitle>Editor & Preview</CardTitle>
                         <CardDescription>
-                            Write markdown on the left and see the rendered output on the right.
+                            Write markdown and toggle to see the rendered output.
                         </CardDescription>
                     </CardHeader>
                     <CardContent className="flex-1 flex flex-col gap-4">
-                        <ResizablePanelGroup direction="horizontal" className="min-h-[600px] rounded-lg border">
-                            <ResizablePanel defaultSize={50} minSize={30}>
-                                <div className="flex h-full flex-col">
+                        <Tabs value={activeTab} onValueChange={(value) => setActiveTab(value as "edit" | "preview")} className="w-full">
+                            <TabsList className="grid w-full grid-cols-2">
+                                <TabsTrigger value="edit" className="flex items-center gap-2">
+                                    <FileText className="h-4 w-4" />
+                                    Edit
+                                </TabsTrigger>
+                                <TabsTrigger value="preview" className="flex items-center gap-2">
+                                    <Eye className="h-4 w-4" />
+                                    Preview
+                                </TabsTrigger>
+                            </TabsList>
+                            
+                            <TabsContent value="edit" className="mt-4">
+                                <div className="rounded-lg border min-h-[600px] flex flex-col">
                                     <div className="border-b bg-muted/40 px-4 py-2">
                                         <div className="flex items-center gap-2">
                                             <FileText className="h-4 w-4 text-muted-foreground" />
@@ -372,14 +381,14 @@ ${renderedHtml}
                                         value={markdown}
                                         onChange={handleMarkdownChange}
                                         placeholder="Write your markdown here..."
-                                        className="flex-1 border-0 font-mono text-sm resize-none rounded-none focus-visible:ring-0"
+                                        className="flex-1 border-0 font-mono text-sm resize-none rounded-none focus-visible:ring-0 min-h-[550px]"
                                         spellCheck={false}
                                     />
                                 </div>
-                            </ResizablePanel>
-                            <ResizableHandle withHandle />
-                            <ResizablePanel defaultSize={50} minSize={30}>
-                                <div className="flex h-full flex-col">
+                            </TabsContent>
+                            
+                            <TabsContent value="preview" className="mt-4">
+                                <div className="rounded-lg border min-h-[600px] flex flex-col">
                                     <div className="border-b bg-muted/40 px-4 py-2">
                                         <div className="flex items-center gap-2">
                                             <Code2 className="h-4 w-4 text-muted-foreground" />
@@ -391,8 +400,8 @@ ${renderedHtml}
                                         dangerouslySetInnerHTML={{ __html: renderedHtml }}
                                     />
                                 </div>
-                            </ResizablePanel>
-                        </ResizablePanelGroup>
+                            </TabsContent>
+                        </Tabs>
 
                         <div className="flex flex-wrap items-center gap-3">
                             <Button
