@@ -9,6 +9,7 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as AboutRouteImport } from './routes/about'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as ToolsIndexRouteImport } from './routes/tools/index'
 import { Route as ToolsYamlLinterRouteImport } from './routes/tools/yaml-linter'
@@ -23,6 +24,11 @@ import { Route as ToolsCssParserRouteImport } from './routes/tools/css-parser'
 import { Route as ToolsContrastCheckerRouteImport } from './routes/tools/contrast-checker'
 import { Route as ToolsColorConverterRouteImport } from './routes/tools/color-converter'
 
+const AboutRoute = AboutRouteImport.update({
+  id: '/about',
+  path: '/about',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
@@ -91,6 +97,7 @@ const ToolsColorConverterRoute = ToolsColorConverterRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/about': typeof AboutRoute
   '/tools/color-converter': typeof ToolsColorConverterRoute
   '/tools/contrast-checker': typeof ToolsContrastCheckerRoute
   '/tools/css-parser': typeof ToolsCssParserRoute
@@ -106,6 +113,7 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/about': typeof AboutRoute
   '/tools/color-converter': typeof ToolsColorConverterRoute
   '/tools/contrast-checker': typeof ToolsContrastCheckerRoute
   '/tools/css-parser': typeof ToolsCssParserRoute
@@ -122,6 +130,7 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/about': typeof AboutRoute
   '/tools/color-converter': typeof ToolsColorConverterRoute
   '/tools/contrast-checker': typeof ToolsContrastCheckerRoute
   '/tools/css-parser': typeof ToolsCssParserRoute
@@ -139,6 +148,7 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/about'
     | '/tools/color-converter'
     | '/tools/contrast-checker'
     | '/tools/css-parser'
@@ -154,6 +164,7 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/about'
     | '/tools/color-converter'
     | '/tools/contrast-checker'
     | '/tools/css-parser'
@@ -169,6 +180,7 @@ export interface FileRouteTypes {
   id:
     | '__root__'
     | '/'
+    | '/about'
     | '/tools/color-converter'
     | '/tools/contrast-checker'
     | '/tools/css-parser'
@@ -185,6 +197,7 @@ export interface FileRouteTypes {
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AboutRoute: typeof AboutRoute
   ToolsColorConverterRoute: typeof ToolsColorConverterRoute
   ToolsContrastCheckerRoute: typeof ToolsContrastCheckerRoute
   ToolsCssParserRoute: typeof ToolsCssParserRoute
@@ -201,6 +214,13 @@ export interface RootRouteChildren {
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/about': {
+      id: '/about'
+      path: '/about'
+      fullPath: '/about'
+      preLoaderRoute: typeof AboutRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
@@ -297,6 +317,7 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AboutRoute: AboutRoute,
   ToolsColorConverterRoute: ToolsColorConverterRoute,
   ToolsContrastCheckerRoute: ToolsContrastCheckerRoute,
   ToolsCssParserRoute: ToolsCssParserRoute,

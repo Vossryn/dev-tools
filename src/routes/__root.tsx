@@ -56,8 +56,8 @@ function RootDocument({ children }: { children: React.ReactNode }) {
       </head>
       <body>
         <ThemeProvider>
-          <Header />
           <div className="min-h-screen bg-background text-foreground bg-linear-to-b from-(--background-gradient-from) to-(--background-gradient-to)">
+            <Header />
             {children}
           </div>
           <React.Suspense fallback={null}>

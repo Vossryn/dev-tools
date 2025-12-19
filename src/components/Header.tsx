@@ -5,6 +5,7 @@ import { ModeToggle } from "@/components/mode-toggle";
 const navItems = [
   { label: "Home", to: "/" },
   { label: "Tools", to: "/tools" },
+  { label: "About", to: "/about" },
 ];
 
 const baseLinkClass =
