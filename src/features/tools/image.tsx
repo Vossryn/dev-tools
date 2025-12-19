@@ -38,6 +38,7 @@ function Tools() {
           onChange={(event) => setQuery(event.target.value)}
           placeholder="Search tools..."
           autoComplete="off"
+          className="bg-card shadow-sm"
         />
       </div>
       {filteredTools.length === 0 ? (
@@ -45,7 +46,7 @@ function Tools() {
       ) : (
         <ul className="grid gap-4">
           {filteredTools.map((tool) => (
-          <li key={tool.slug} className="rounded-lg border bg-card p-6 shadow-sm transition hover:shadow-md">
+          <li key={tool.slug} className="rounded-lg border bg-card p-6 shadow-sm transition hover:scale-[1.01] hover:shadow-md">
             <Link to={tool.href} className="flex flex-col gap-2">
               <span className="text-xl font-semibold text-primary">{tool.name}</span>
               <span className="text-sm text-muted-foreground">{tool.description}</span>

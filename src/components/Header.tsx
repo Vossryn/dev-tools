@@ -14,7 +14,7 @@ const activeLinkClass =
 
 export default function Header() {
   return (
-    <header className="border-b border-border/60 bg-(--header-background)/95 backdrop-blur supports-backdrop-filter:bg-(--header-background)/80">
+    <header className="border-b border-border/60 bg-card shadow-sm">
       <div className="mx-auto flex h-16 w-full max-w-5xl items-center justify-between px-4">
         <Link to="/" className="text-lg font-semibold">
           Dev Tools

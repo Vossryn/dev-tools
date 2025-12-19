@@ -40,9 +40,6 @@ const Home: React.FC = () => {
         <header className="flex items-center justify-between">
           <div className="grid gap-1">
             <h2 className="text-2xl font-semibold">Featured tools</h2>
-            <p className="text-sm text-muted-foreground">
-              The first release focuses on image utilities, with more on the way.
-            </p>
           </div>
           <Button asChild variant="ghost">
             <Link to="/tools">See all</Link>
@@ -53,7 +50,7 @@ const Home: React.FC = () => {
           {featuredTools.map((tool) => (
             <li
               key={tool.slug}
-              className="rounded-lg border bg-card p-6 text-left shadow-sm transition hover:shadow-md"
+              className="rounded-lg border bg-card p-6 text-left shadow-sm transition hover:scale-[1.01] hover:shadow-md"
             >
               <Link to={tool.href} className="grid gap-3">
                 <span className="text-xl font-semibold text-primary">
